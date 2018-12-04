@@ -7,11 +7,18 @@
 
 
 class GetipPipeline(object):
+    def __init__(self):
+        self.file = open("list.txt", "a")
+
     def process_item(self, item, spider):
-        file = open("/proxy/list.txt", "a")
-        item_string = str(item)
-        file.write(item_string)
-        file.write('\n')
-        file.close()
-        print(item_string)
-        return item
+        if item['type'] == 'HTTP' and '天' in str(item['time']):
+            item_string = 'http://' + str(item['host']) + ':' + str(item['port'])
+            self.file.write(item_string)
+            self.file.write('\n')
+            print(item_string)
+            return item
+        else:
+            return None
+
+    def close_spider(self, spider):
+        self.file.close()

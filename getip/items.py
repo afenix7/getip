@@ -13,5 +13,7 @@ class GetipItem(scrapy.Item):
     # name = scrapy.Field()
     host = scrapy.Field()
     port = scrapy.Field()
-    
+    time = scrapy.Field()
+    type = scrapy.Field()
+    loc = scrapy.Field()
     pass
