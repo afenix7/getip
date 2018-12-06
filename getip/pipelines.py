@@ -22,10 +22,14 @@ import lxml
 
 
 class GetipPipeline(object):
-    validate_url = "http://ip.chinaz.com/getip.aspx"
+    # validate_url = "http://ip.chinaz.com/getip.aspx"
+    validate_url = "http://www.baidu.com"
 
     headers = {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.99 Safari/537.36'
+        'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.99 '
+                      'Safari/537.36',
+        'Accept-Language': 'zh-cn, zh;q=0.9,en;q=0.8;*,q=0.5',
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
     }
 
     def __init__(self):
@@ -37,12 +41,13 @@ class GetipPipeline(object):
 
     def validate_ip(self, proxy):
         try:
-            socket.setdefaulttimeout(3)
+            # socket.setdefaulttimeout(3)
             proxy_temp = {"http": proxy}
             wb_data = requests.get(self.validate_url, headers=self.headers, proxies=proxy_temp)
-            soup = BeautifulSoup(wb_data.text, 'lxml')
-            print(soup)
-            print(proxy)
+            # print(proxy)
+            print(wb_data)
+            # soup = BeautifulSoup(wb_data.text, 'lxml')
+            # print(soup)
             return True
         except:
             return False
@@ -55,9 +60,9 @@ class GetipPipeline(object):
             else:
                 self.file.write(item_string)
                 self.file.write('\n')
-            print("增加IP: " + item_string)
+            print("增加add IP: " + item_string)
         except:
-            print('写入文件时发生错误')
+            print('file error 写入文件时发生错误')
 
     def process_item(self, item, spider):
         if '天' in str(item['time']):
@@ -65,7 +70,7 @@ class GetipPipeline(object):
             if self.validate_ip(item_string):
                 self.write_ip(str(item['type']), item_string)
             else:
-                print("\033[0;31m验证失败: %s\033[0m" % item_string)
+                print("\033[0;31m验证失败ip invalid: %s\033[0m" % item_string)
             return item
         else:
             raise DropItem('drop item: %s' % item)

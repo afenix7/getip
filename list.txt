@@ -1,9 +1,4 @@
+http://219.134.90.116:42931   17天
 http://210.72.14.142:80   900天
-
-
- http://124.235.135.87:80
- {'host': '124.235.135.87', 'port': '80', 'time': '10天', 'type': 'HTTP'}
-
-<html><body><h1>Not Found</h1>The requested URL http://ip.chinaz.com/getip.aspx was not found on this server.</body></html>
 
 
