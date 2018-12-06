@@ -4,6 +4,7 @@
 #
 # Don't forget to add your pipeline to the ITEM_PIPELINES setting
 # See: https://doc.scrapy.org/en/latest/topics/item-pipeline.html
+from requests import HTTPError, Timeout
 from scrapy.exceptions import DropItem
 from bs4 import BeautifulSoup
 import urllib
@@ -42,14 +43,15 @@ class GetipPipeline(object):
     def validate_ip(self, proxy):
         try:
             # socket.setdefaulttimeout(3)
-            proxy_temp = {"http": proxy}
-            wb_data = requests.get(self.validate_url, headers=self.headers, proxies=proxy_temp)
+            proxy_temp = {"https": proxy} if 'https' in proxy else {"http": proxy}
+            res = requests.get(self.validate_url, timeout=10, headers=self.headers, proxies=proxy_temp)
             # print(proxy)
-            print(wb_data)
+            print(res)
             # soup = BeautifulSoup(wb_data.text, 'lxml')
             # print(soup)
-            return True
-        except:
+            return int(res) < 300
+        except ConnectionError or HTTPError or Timeout as e:
+            print(e)
             return False
 
     def write_ip(self, ip_type, item_string):
