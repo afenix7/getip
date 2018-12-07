@@ -49,9 +49,9 @@ class GetipPipeline(object):
             print(res)
             # soup = BeautifulSoup(wb_data.text, 'lxml')
             # print(soup)
-            return int(res) < 300
+            return int(res.status_code) < 400
         except ConnectionError or HTTPError or Timeout as e:
-            print(e)
+            print(e.message)
             return False
 
     def write_ip(self, ip_type, item_string):
