@@ -9,11 +9,12 @@ from getip.items import GetipItem
 class XiciSpider(CrawlSpider):
     name = 'xici'
     allowed_domains = ['www.xicidaili.com']
-    start_urls = ['http://www.xicidaili.com/nn']
+    start_urls = ['http://www.xicidaili.com/nn/21']
 
     rules = (
         # 分页
-        Rule(LinkExtractor(allow=r'http://www.xicidaili.com/nn/(20|1[0-9]|[1-9])$'), callback='parse_item', follow=True),
+        # r'http://www.xicidaili.com/nn/(20|1[0-9]|[1-9])$'
+        Rule(LinkExtractor(allow=r'http://www.xicidaili.com/nn/[2-5][0-9]$'), callback='parse_item', follow=True),
     )
 
     def parse_item(self, response):

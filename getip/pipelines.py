@@ -4,6 +4,8 @@
 #
 # Don't forget to add your pipeline to the ITEM_PIPELINES setting
 # See: https://doc.scrapy.org/en/latest/topics/item-pipeline.html
+import random
+
 from requests import HTTPError, Timeout
 from scrapy.exceptions import DropItem
 from bs4 import BeautifulSoup
@@ -34,8 +36,8 @@ class GetipPipeline(object):
     }
 
     def __init__(self):
-        self.file = open("iplist.txt", "a")
-        self.sfile = open("siplist.txt", "a")
+        self.file = open("iplist" + random.randint(1, 100) + ".txt", "a")
+        self.sfile = open("siplis" + random.randint(1, 100) + ".txt", "a")
 
     def process_ip(self, ip_type, host, port):
         return 'https://' + host + ':' + port if ip_type == 'HTTPS' else 'http://' + host + ':' + port
